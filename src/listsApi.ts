@@ -26,16 +26,16 @@ export const listsApi = createApi({
   tagTypes: ['List'],
   endpoints: (builder) => ({
     getLists: builder.query({
-      query: () => '/lists',
+      query: () => '',
       providesTags: ['List'],
     }),
     getList: builder.query<ListType, string>({
-      query: (id) => `/lists/${id}`,
+      query: (id) => `/${id}`,
       providesTags: ['List'],
     }),
     createList: builder.mutation<ListType, Partial<ListType>>({
       query: (list) => ({
-        url: '/lists',
+        url: '',
         method: 'POST',
         body: list,
       }),
@@ -43,7 +43,7 @@ export const listsApi = createApi({
     }),
     updateList: builder.mutation<ListType, { id: string; list: Partial<ListType> }>({
       query: ({ id, list }) => ({
-        url: `/lists/${id}`,
+        url: `/${id}`,
         method: 'PUT',
         body: list,
       }),
@@ -51,14 +51,14 @@ export const listsApi = createApi({
     }),
     deleteList: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/lists/${id}`,
+        url: `/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['List'],
     }),
     cloneList: builder.mutation<ListType, string>({
       query: (id) => ({
-        url: `/lists/${id}/clone`,
+        url: `/${id}/clone`,
         method: 'POST',
       }),
       invalidatesTags: ['List'],
