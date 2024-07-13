@@ -34,7 +34,7 @@
           "element": "<Lists />"
         },
         {
-          "path": "/clarion-app/lists/:name",
+          "path": "/clarion-app/lists/:id",
           "element": "<List />"
         }
       ],
