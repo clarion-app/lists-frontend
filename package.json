@@ -1,6 +1,6 @@
 {
     "name": "@clarion-app/lists-frontend",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "",
     "main": "dist/index.js",
     "scripts": {
@@ -27,7 +27,7 @@
     },
     "customFields": {
       "initializer": "initializeListsFrontend",
-      "api": "listsApi",
+      "api": "listsFrontendApi",
       "routes": [
         {
           "path": "/clarion-app/lists",
