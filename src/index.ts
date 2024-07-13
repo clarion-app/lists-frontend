@@ -5,8 +5,8 @@ import List from "./List";
 
 export const backend: BackendType = { url: "http://localhost:8000" };
 
-const initializeWizlightFrontend = (setBackendUrl: string) => {
+const initializeListsFrontend = (setBackendUrl: string) => {
     backend.url = setBackendUrl;
 };
 
-export { initializeWizlightFrontend, listsFrontendApi, Lists, List };
+export { initializeListsFrontend, listsFrontendApi, Lists, List };
