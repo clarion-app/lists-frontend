@@ -44,59 +44,67 @@ const List = () => {
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (
-    <div>
-      <h3>{list?.name}</h3>
+    <section className="section fixed-grid has-2-cols">
+      <h1 className="title">List Manager - {list?.name}</h1>
       <form onSubmit={handleAddItem} className="mb-4">
         <input
           type="text"
           value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
           placeholder="New item name"
-          className="border p-2 mr-2"
+          className="p-2 mr-2 is-3"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2">Add Item</button>
+        <button type="submit" className="button p-2">Add Item</button>
       </form>
-      <ul>
         {list?.items.map((item) => (
-          <li key={item.id} className="mb-2">
+        <div key={item.id} className="mb-2">
             {editItem && editItem.id === item.id ? (
+              <div className="grid">
               <form onSubmit={handleSaveEditItem}>
+                <div className="cell">
                 <input
                   type="text"
                   value={editItem.name}
                   onChange={(e) => setEditItem({ ...editItem, name: e.target.value })}
-                  className="border p-2 mr-2"
+                  className="p-2 mr-2"
                 />
-                <button type="submit" className="bg-green-500 text-white p-2">Save</button>
+                </div>
+                <div className="cell">
+                <button type="submit" className="p-2">Save</button>
+                </div>
+                <div className="cell">
                 <button
                   type="button"
                   onClick={() => setEditItem(null)}
-                  className="bg-red-500 text-white p-2 ml-2"
+                  className="p-2 ml-2"
                 >
                   Cancel
                 </button>
+                </div>
               </form>
+              </div>
             ) : (
-              <>
-                <span>{item.name}</span>
+              <div key={item.id} className="grid">
+                <div className="cell is-size-4 is-half">{item.name}</div>
+                <div className="cell">
                 <button
                   onClick={() => handleEditItem(item)}
-                  className="bg-yellow-500 text-white p-2 ml-4"
+                  className="button is-primary is-light is-small mr-2"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteItem(item.id)}
-                  className="bg-red-500 text-white p-2 ml-2"
+                  className="button is-danger is-small"
                 >
                   Delete
                 </button>
-              </>
+                </div>
+              </div>
             )}
-          </li>
+          </div>
         ))}
-      </ul>
-    </div>
+    </section>
   );
 };
 

@@ -1,19 +1,29 @@
-import { useGetListsQuery, useCreateListMutation, useUpdateListMutation, useCloneListMutation, ListType } from './listsApi';
-import { useState } from 'react';
+import {
+  useGetListsQuery,
+  useCreateListMutation,
+  useUpdateListMutation,
+  useCloneListMutation,
+  useDeleteListMutation,
+  ListType,
+} from "./listsApi";
+import { useState } from "react";
 
 const Lists = () => {
   const { data: lists, error, isLoading } = useGetListsQuery(null);
   const [createList] = useCreateListMutation();
   const [updateList] = useUpdateListMutation();
   const [cloneList] = useCloneListMutation();
-  const [listName, setListName] = useState('');
-  const [editList, setEditList] = useState<{ id: string; name: string } | null>(null);
+  const [listName, setListName] = useState("");
+  const [editList, setEditList] = useState<{ id: string; name: string } | null>(
+    null
+  );
+  const [deleteList] = useDeleteListMutation();
 
   const handleCreateList = async (e: React.FormEvent) => {
     e.preventDefault();
     if (listName.trim()) {
       await createList({ name: listName });
-      setListName('');
+      setListName("");
     }
   };
 
@@ -33,67 +43,92 @@ const Lists = () => {
     await cloneList(id);
   };
 
+  const handleDeleteList = async (id: string) => {
+    await deleteList(id);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (
-    <div>
-      <h1>Lists</h1>
-      <form onSubmit={handleCreateList} className="mb-4">
-        <input
-          type="text"
-          value={listName}
-          onChange={(e) => setListName(e.target.value)}
-          placeholder="New list name"
-          className="border p-2 mr-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2">Create List</button>
+    <section className="section fixed-grid has-4-cols">
+      <h1 className="title">List Manager - Lists</h1>
+      <form onSubmit={handleCreateList}>
+        <div className="grid mb-4">
+          <div className="cell">
+            <input
+              type="text"
+              value={listName}
+              onChange={(e) => setListName(e.target.value)}
+              placeholder="New list name"
+              className="input"
+            />
+          </div>
+          <div className="cell">
+            <button type="submit" className="button is-success">
+              Create List
+            </button>
+          </div>
+        </div>
       </form>
-      <ul>
-        {lists?.map((list: ListType) => (
-          <li key={list.id} className="mb-2">
-            {editList && editList.id === list.id ? (
-              <form onSubmit={handleSaveEditList} className="inline">
-                <input
-                  type="text"
-                  value={editList.name}
-                  onChange={(e) => setEditList({ ...editList, name: e.target.value })}
-                  className="border p-2 mr-2"
-                />
-                <button type="submit" className="bg-green-500 text-white p-2">Save</button>
-                <button
-                  type="button"
-                  onClick={() => setEditList(null)}
-                  className="bg-red-500 text-white p-2 ml-2"
-                >
-                  Cancel
-                </button>
-              </form>
-            ) : (
-              <>
-                <span>{list.name}</span>
+      {lists?.map((list: ListType) => (
+        <div key={list.id} className="grid">
+          {editList && editList.id === list.id ? (
+            <form onSubmit={handleSaveEditList} className="inline">
+              <input
+                type="text"
+                value={editList.name}
+                onChange={(e) =>
+                  setEditList({ ...editList, name: e.target.value })
+                }
+              />
+              <button type="submit" className="button">
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditList(null)}
+                className="button is-danger"
+              >
+                Cancel
+              </button>
+            </form>
+          ) : (
+            <>
+              <div className="is-size-4 cell">
+                <a key={list.id} href={"/clarion-app/lists/" + list.id}>
+                  {list.name}
+                </a>
+              </div>
+              <div className="cell">
                 <button
                   onClick={() => handleEditList(list)}
-                  className="bg-yellow-500 text-white p-2 ml-4"
+                  className="button is-primary is-light"
                 >
                   Edit
                 </button>
+              </div>
+              <div className="cell">
                 <button
                   onClick={() => handleCloneList(list.id)}
-                  className="bg-purple-500 text-white p-2 ml-2"
+                  className="button is-primary is-light"
                 >
                   Clone
                 </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-        {lists?.map((list: ListType) => (
-          <a key={list.id} href={"/clarion-app/lists/" + list.id}>{list.name}</a>
-        ))}
-    </div>
+              </div>
+              <div className="cell">
+                <button
+                  onClick={() => handleDeleteList(list.id)}
+                  className="button is-danger"
+                >
+                  Delete
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </section>
   );
 };
 
