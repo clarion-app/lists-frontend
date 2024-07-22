@@ -44,7 +44,7 @@ const List = () => {
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (
-    <section className="section fixed-grid has-2-cols">
+    <div className="fixed-grid has-2-cols">
       <h1 className="title">List Manager - {list?.name}</h1>
       <form onSubmit={handleAddItem} className="mb-4">
         <input
@@ -104,7 +104,7 @@ const List = () => {
             )}
           </div>
         ))}
-    </section>
+    </div>
   );
 };
 

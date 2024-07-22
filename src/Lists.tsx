@@ -51,7 +51,7 @@ const Lists = () => {
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (
-    <section className="section fixed-grid has-4-cols">
+    <div className="fixed-grid has-4-cols">
       <h1 className="title">List Manager - Lists</h1>
       <form onSubmit={handleCreateList}>
         <div className="grid mb-4">
@@ -128,7 +128,7 @@ const Lists = () => {
           )}
         </div>
       ))}
-    </section>
+    </div>
   );
 };
 
