@@ -7,6 +7,7 @@ import {
   ListType,
 } from "./listsApi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Lists = () => {
   const { data: lists, error, isLoading } = useGetListsQuery(null);
@@ -18,6 +19,7 @@ const Lists = () => {
     null
   );
   const [deleteList] = useDeleteListMutation();
+  const navigate = useNavigate();
 
   const handleCreateList = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,7 +98,7 @@ const Lists = () => {
           ) : (
             <>
               <div className="is-size-4 cell">
-                <a key={list.id} href={"/clarion-app/lists/" + list.id}>
+                <a key={list.id} href="#" onClick={() => navigate("/clarion-app/lists/" + list.id)}>
                   {list.name}
                 </a>
               </div>
