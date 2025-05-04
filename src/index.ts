@@ -3,14 +3,12 @@ import { listsApi } from "./listsApi";
 import Lists from "./Lists";
 import List from "./List";
 
-export const backend: BackendType = { url: "http://localhost:8000", token: "" };
+export const backend: BackendType = { url: "http://localhost:8000", token: "", user: { id: "", name: "", email: ""} };
 
-const initializeFrontend = (setBackendUrl: string) => {
-    backend.url = setBackendUrl;
+export const updateFrontend = (config: BackendType) => {
+    backend.url = config.url;
+    backend.token = config.token;
+    backend.user = config.user;
 };
 
-const setFrontendToken = (token: string) => {
-    backend.token = token;
-};
-
-export { initializeFrontend, listsApi, setFrontendToken, Lists, List };
+export { listsApi, Lists, List };
