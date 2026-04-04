@@ -1,21 +1,6 @@
-import { createApi, fetchBaseQuery, BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import { backend } from '.';
-
-const rawBaseQuery = (baseUrl: string) => fetchBaseQuery({ 
-  baseUrl: baseUrl,
-  credentials: 'include',
-  prepareHeaders: (headers) => {
-      headers.set('Content-Type', 'application/json');
-      return headers;
-  }
-});
-
-function baseQuery(): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> {
-    return async (args, api, extraOptions) => {
-        let result = await rawBaseQuery((await backend).url + '/api/clarion-app/lists')(args, api, extraOptions);
-        return result;
-    };
-}
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { createBaseQuery } from '@clarion-app/frontend-base';
+import { backend } from './config';
 
 export interface ListItemType {
   id: string;
@@ -30,7 +15,7 @@ export interface ListType {
 
 export const listsApi = createApi({
   reducerPath: 'listsApi',
-  baseQuery: baseQuery(),
+  baseQuery: createBaseQuery({ routePrefix: '/api/clarion-app/lists', backendConfig: backend }),
   tagTypes: ['List'],
   endpoints: (builder) => ({
     getLists: builder.query({
